@@ -8,8 +8,8 @@ public class PlayerPhysics : MonoBehaviour {
 	public LayerMask collisionMask;
 	
 	private BoxCollider collider;
-	private Vector3 s;
-	private Vector3 c;
+	private Vector3 colliderSize;
+	private Vector3 colliderCentre;
 	
 	private float skin = .005f;
 	
@@ -23,8 +23,8 @@ public class PlayerPhysics : MonoBehaviour {
 	
 	void Start() {
 		collider = GetComponent<BoxCollider>();
-		s = collider.size;
-		c = collider.center;
+		colliderSize = collider.size;
+		colliderCentre = collider.center;
 	}
 	
 	public void Move(Vector2 moveAmount) {
@@ -38,8 +38,8 @@ public class PlayerPhysics : MonoBehaviour {
 		
 		for (int i = 0; i<3; i ++) {
 			float dir = Mathf.Sign(deltaY);
-			float x = (p.x + c.x - s.x/2) + s.x/2 * i; // Left, centre and then rightmost point of collider
-			float y = p.y + c.y + s.y/2 * dir; // Bottom of collider
+			float x = (p.x + colliderCentre.x - colliderSize.x/2) + colliderSize.x/2 * i; // Left, centre and then rightmost point of collider
+			float y = p.y + colliderCentre.y + colliderSize.y/2 * dir; // Bottom of collider
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(0,dir));
 			Debug.DrawRay(ray.origin,ray.direction);
@@ -64,8 +64,8 @@ public class PlayerPhysics : MonoBehaviour {
 		collided = false;
 		for (int i = 0; i<3; i ++) {
 			float dir = Mathf.Sign(deltaX);
-			float x = p.x + c.x + s.x/2 * dir;
-			float y = p.y + c.y - s.y/2 + s.y/2 * i;
+			float x = p.x + colliderCentre.x + colliderSize.x/2 * dir;
+			float y = p.y + colliderCentre.y - colliderSize.y/2 + colliderSize.y/2 * i;
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(dir,0));
 			Debug.DrawRay(ray.origin,ray.direction);
@@ -92,7 +92,7 @@ public class PlayerPhysics : MonoBehaviour {
 			Vector2 playerDirection = new Vector2(deltaX, deltaY);
 
 			//set the origin point 
-			Vector2 origin = new Vector2(p.x + c.x + s.x/2 * Mathf.Sign(deltaX), p.y + c.y + s.y/2 * Mathf.Sign (deltaY));
+			Vector2 origin = new Vector2(p.x + colliderCentre.x + colliderSize.x/2 * Mathf.Sign(deltaX), p.y + colliderCentre.y + colliderSize.y/2 * Mathf.Sign (deltaY));
 
 
 			//create a ray in the direction of the player movement, in this case the direction is angled 

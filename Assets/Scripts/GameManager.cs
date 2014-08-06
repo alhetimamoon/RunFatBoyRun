@@ -14,6 +14,6 @@ public class GameManager : MonoBehaviour {
 	private void SpawnPlayer()
 	{
 		//setTarget method takes transform object as a parameter, so we have to convert the game object into a transform 
-		cam.SetTarget((Instantiate(player, Vector2.zero, Quaternion.identity) as GameObject).transform);
+		cam.SetTarget((Instantiate(player, Vector3.zero, Quaternion.identity) as GameObject).transform);
 	}
 }

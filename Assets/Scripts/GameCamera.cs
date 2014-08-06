@@ -10,13 +10,16 @@ public class GameCamera : MonoBehaviour {
 	{
 		target = transform;
 	}
+
+	//Late update gets executed after the all update methods have been called, this is useful to 
+	//track our main character that have been moved inside a move method. 
 	void LateUpdate()
 	{
 		if (target)
 		{
 			float x = IncrementTowards(target.position.x, target.position.x, camSpeed);
 			float y = IncrementTowards(target.position.y, target.position.y, camSpeed);
-			transform.position = new Vector3 (x, y, transform.position.z);
+			transform.position = new Vector3 (x, y+5, transform.position.z);
 		}
 
 	}
