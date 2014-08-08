@@ -10,6 +10,10 @@ public class PlayerPhysics : MonoBehaviour {
 	private BoxCollider collider;
 	private Vector3 colliderSize;
 	private Vector3 colliderCentre;
+
+	private Vector3 originalSize;
+	private Vector3 originalCentre;
+	private float scale;
 	
 	private float skin = .005f;
 	
@@ -22,9 +26,12 @@ public class PlayerPhysics : MonoBehaviour {
 	RaycastHit hit;
 	
 	void Start() {
+
 		collider = GetComponent<BoxCollider>();
-		colliderSize = collider.size;
-		colliderCentre = collider.center;
+		scale = transform.localScale.x;
+		originalSize = collider.size;
+		originalCentre = collider.center;
+		SetCollider (originalCentre, originalSize);
 	}
 	
 	public void Move(Vector2 moveAmount) {
@@ -114,6 +121,15 @@ public class PlayerPhysics : MonoBehaviour {
 		//Debug.DrawRay(origin, playerDirection.normalized);
 		Vector2 finalTransform = new Vector2(deltaX,deltaY);
 		transform.Translate(finalTransform);
+	}
+	public void SetCollider(Vector2 center, Vector2 size)
+	{
+		collider.center = center;
+		collider.size = size; 
+
+		//we also have to update colliderSize and colliderCenter which they're being used in the move method 
+		colliderCentre = center * scale;
+		colliderSize = size * scale;
 	}
 	
 }
