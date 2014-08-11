@@ -14,6 +14,12 @@ public class PlayerPhysics : MonoBehaviour {
 	private Vector3 originalSize;
 	private Vector3 originalCentre;
 	private float scale;
+
+	//We need these variables to dtermine how many rays are we sending from the sides and the bottom 
+	//so that we wont have huge gaps between an ray and another 
+
+	private int collisionRayX = 3; 
+	private int collisionRayY = 10;
 	
 	private float skin = .005f;
 	
@@ -43,9 +49,9 @@ public class PlayerPhysics : MonoBehaviour {
 		// Check collisions above and below
 		grounded = false;
 		
-		for (int i = 0; i<3; i ++) {
+		for (int i = 0; i<collisionRayX; i ++) {
 			float dir = Mathf.Sign(deltaY);
-			float x = (p.x + colliderCentre.x - colliderSize.x/2) + colliderSize.x/2 * i; // Left, centre and then rightmost point of collider
+			float x = (p.x + colliderCentre.x - colliderSize.x/2) + colliderSize.x/ (collisionRayX-1) * i; // Left, centre and then rightmost point of collider
 			float y = p.y + colliderCentre.y + colliderSize.y/2 * dir; // Bottom of collider
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(0,dir));
@@ -69,10 +75,10 @@ public class PlayerPhysics : MonoBehaviour {
 		}
 		// Check collisions left and right
 		collided = false;
-		for (int i = 0; i<3; i ++) {
+		for (int i = 0; i<collisionRayY; i ++) {
 			float dir = Mathf.Sign(deltaX);
 			float x = p.x + colliderCentre.x + colliderSize.x/2 * dir;
-			float y = p.y + colliderCentre.y - colliderSize.y/2 + colliderSize.y/2 * i;
+			float y = p.y + colliderCentre.y - colliderSize.y/2 + colliderSize.y/ (collisionRayY-1) * i;
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(dir,0));
 			Debug.DrawRay(ray.origin,ray.direction);

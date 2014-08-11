@@ -5,13 +5,17 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	public float gravity = 20;
-	public float speed = 8; 
+	public float walkingSpeed = 8; 
+	public float runningSpeed = 20; 
+
 	public float acceleration = 30; 
 	public float jumpHeight = 12;
 
 	private float currentSpeed;
 	private float targetSpeed;
 	private Vector2 amountToMove; 
+
+	private Animator playerAnimator;
 
 	private PlayerPhysics playerPhysics;
 
@@ -20,12 +24,13 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 
 		playerPhysics = GetComponent<PlayerPhysics>();
+		playerAnimator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		targetSpeed = Input.GetAxisRaw ("Horizontal") * speed;
-		currentSpeed = IncrementTowards (currentSpeed, targetSpeed, acceleration);
+
+
 
 		//check if the player collided before checking for the input 	
 		if (playerPhysics.collided)
@@ -39,6 +44,14 @@ public class PlayerController : MonoBehaviour {
 				amountToMove.y = jumpHeight;
 
 		}
+
+		playerAnimator.SetFloat("Speed", Mathf.Abs(currentSpeed));
+		//we set the animator float before the input 
+		//input values 
+		float speed = (Input.GetButton("Run"))? runningSpeed : walkingSpeed;
+		targetSpeed = Input.GetAxisRaw ("Horizontal") * speed;
+		currentSpeed = IncrementTowards (currentSpeed, targetSpeed, acceleration);
+
 		amountToMove.x = currentSpeed;
 		amountToMove.y -= gravity * Time.deltaTime;
 		playerPhysics.Move (amountToMove * Time.deltaTime);
