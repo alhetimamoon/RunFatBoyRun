@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour {
 	public float acceleration = 30; 
 	public float jumpHeight = 12;
 
+	private float animSpeed; 
+
 	private float currentSpeed;
 	private float targetSpeed;
 	private Vector2 amountToMove; 
@@ -29,9 +31,6 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-
-
 		//check if the player collided before checking for the input 	
 		if (playerPhysics.collided)
 		{
@@ -44,8 +43,8 @@ public class PlayerController : MonoBehaviour {
 				amountToMove.y = jumpHeight;
 
 		}
-
-		playerAnimator.SetFloat("Speed", Mathf.Abs(currentSpeed));
+		animSpeed = IncrementTowards (animSpeed, targetSpeed, acceleration);
+		playerAnimator.SetFloat("Speed", Mathf.Abs(animSpeed));
 		//we set the animator float before the input 
 		//input values 
 		float speed = (Input.GetButton("Run"))? runningSpeed : walkingSpeed;
@@ -55,6 +54,16 @@ public class PlayerController : MonoBehaviour {
 		amountToMove.x = currentSpeed;
 		amountToMove.y -= gravity * Time.deltaTime;
 		playerPhysics.Move (amountToMove * Time.deltaTime);
+
+		//face rotation 
+		//transform.rotation = Quaternion.identity;
+		//get the face direction
+		float faceDir = Input.GetAxisRaw("Horizontal");
+			
+		if (faceDir !=0) {
+			transform.eulerAngles = (faceDir>0)?Vector3.up * 180:Vector3.zero;
+		}
+
 	}
 	/**
 	 * This function handles the speed changes

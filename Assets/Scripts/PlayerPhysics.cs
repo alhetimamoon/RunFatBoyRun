@@ -126,7 +126,7 @@ public class PlayerPhysics : MonoBehaviour {
 		//for debugging purposes, uncomment the following line to see the ray
 		//Debug.DrawRay(origin, playerDirection.normalized);
 		Vector2 finalTransform = new Vector2(deltaX,deltaY);
-		transform.Translate(finalTransform);
+		transform.Translate(finalTransform, Space.World);
 	}
 	public void SetCollider(Vector2 center, Vector2 size)
 	{

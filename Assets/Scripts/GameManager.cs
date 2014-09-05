@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<GameCamera>();
-		//SpawnPlayer();
+		SpawnPlayer();
 	}
 	private void SpawnPlayer()
 	{
