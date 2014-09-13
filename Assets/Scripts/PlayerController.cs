@@ -4,13 +4,13 @@ using System.Collections;
 [RequireComponent(typeof(PlayerPhysics))]
 public class PlayerController : MonoBehaviour {
 
+
+	//player fields, can be accessed from the inspector
 	public float gravity = 20;
 	public float walkingSpeed = 8; 
-	public float runningSpeed = 20; 
-
+	public float runningSpeed = 12; 
 	public float acceleration = 30; 
 	public float jumpHeight = 12;
-
 	private float animSpeed; 
 
 	private float currentSpeed;
@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour {
 
 	private PlayerPhysics playerPhysics;
 
+
+	//animation states 
+	private bool jumping;
 
 	// Use this for initialization
 	void Start () {
@@ -39,8 +42,21 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (playerPhysics.grounded) {
 			amountToMove.y = 0;
+			if (jumping)
+			{
+				jumping = false;
+				playerAnimator.SetBool("Jumping", false);
+			}
+
+			//jump then set jumping to true
+			//then set the animator controller 
 			if (Input.GetButtonDown("Jump"))
+			{
 				amountToMove.y = jumpHeight;
+				jumping = true;
+				playerAnimator.SetBool("Jumping", true);
+
+			}
 
 		}
 		animSpeed = IncrementTowards (animSpeed, targetSpeed, acceleration);

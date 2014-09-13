@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\PlayerPhysics.cs" />
      <None Include="Assets\MedievalBuildings\readme.txt" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
+     <None Include="Assets\TinyOrc\Documents\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
